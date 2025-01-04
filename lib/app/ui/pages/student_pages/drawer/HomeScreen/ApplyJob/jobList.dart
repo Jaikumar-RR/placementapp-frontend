@@ -124,7 +124,7 @@ class JobListPage extends StatelessWidget {
                 style: TextStyle(color: themeController.textColor),
               ),
             );
-          } else if (jobListController.jobList.isEmpty) {
+          } else if (jobListController.driveList.isEmpty) {
             return Center(
               child: Text(
                 'No data available',
@@ -136,9 +136,9 @@ class JobListPage extends StatelessWidget {
               onRefresh: jobListController.refreshJobList,
               child: ListView.builder(
                 padding: EdgeInsets.all(16.0),
-                itemCount: jobListController.jobList.length,
+                itemCount: jobListController.driveList.length,
                 itemBuilder: (context, index) {
-                  final job = jobListController.jobList[index];
+                  final job = jobListController.driveList[index];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Card(
@@ -174,7 +174,7 @@ class JobListPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      job.companyName,
+                                      job.company.companyName,
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,

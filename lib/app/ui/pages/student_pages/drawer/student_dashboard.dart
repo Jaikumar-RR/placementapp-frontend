@@ -246,27 +246,29 @@ class StudentDashboard extends StatelessWidget {
                             children: [
                               _buildSummaryCard(
                                 'No. of Drives',
-                                controller.jobAppliedList.length,
+                                controller.applicationList.length,
                               ),
                               SizedBox(width: 8.w),
                               _buildSummaryCard(
                                   'Selected',
-                                  controller.jobAppliedList
-                                      .where((jam) => jam!.status == "Selected")
+                                  controller.applicationList
+                                      .where((jam) =>
+                                          jam.status!.status == "Selected")
                                       .length),
                               SizedBox(width: 8.w),
                               _buildSummaryCard(
                                   'Waiting for Result',
-                                  controller.jobAppliedList
+                                  controller.applicationList
                                       .where((jam) =>
-                                          jam!.status == "Waiting for Result")
+                                          jam.status!.status ==
+                                          "Waiting for Result")
                                       .length),
                               SizedBox(width: 8.w),
                               _buildSummaryCard(
                                   'Not Selected',
-                                  controller.jobAppliedList
+                                  controller.applicationList
                                       .where((jam) =>
-                                          jam!.status == "Not Selected")
+                                          jam.status!.status == "Not Selected")
                                       .length),
                             ],
                           ),
@@ -285,21 +287,22 @@ class StudentDashboard extends StatelessWidget {
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: controller.jobAppliedList.length,
+                                itemCount: controller.applicationList.length,
                                 itemBuilder: (context, index) {
                                   Application application =
                                       controller.applicationList[index];
 
                                   return _buildDriveCard(
                                     title:
-                                        application.drive.company.companyName,
+                                        application.drive!.company.companyName,
                                     location:
-                                        application.drive.location ?? "N/A",
-                                    jobType: application.drive.jobType ?? "N/A",
-                                    role: application.drive.jobRole,
-                                    salary: application.drive.salary ?? "N/A",
-                                    tag: application.drive.campusMode ?? "N/A",
-                                    status: application.status.status,
+                                        application.drive!.location ?? "N/A",
+                                    jobType:
+                                        application.drive!.jobType ?? "N/A",
+                                    role: application.drive!.jobRole,
+                                    salary: application.drive!.salary ?? "N/A",
+                                    tag: application.drive!.campusMode ?? "N/A",
+                                    status: application.status!.status,
                                   );
                                 },
                               ),

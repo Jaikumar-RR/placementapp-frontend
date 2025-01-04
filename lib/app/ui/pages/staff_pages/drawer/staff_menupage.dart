@@ -115,7 +115,7 @@ class StaffMenuPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          controller.staff.staffName,
+                          controller.staff.name,
                           style: TextStyle(
                             fontSize: 18,
                             color: themeController.textColor,

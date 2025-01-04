@@ -114,35 +114,35 @@ class AdminDash extends StatelessWidget {
                               width: 60.w,
                               height: 60.h,
                               child: ClipOval(
-                                child: FutureBuilder(
-                                    future: AdminRequests.fetchImageByAdminId(
-                                        admin.id!),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      } else if (snapshot.hasError) {
-                                        return Center(
-                                          child:
-                                              Text('Error: ${snapshot.error}'),
-                                        );
-                                      } else if (!snapshot.hasData) {
-                                        return CircleAvatar(
-                                          radius: 30.r,
-                                          backgroundImage: AssetImage(
-                                              'assets/images/user.jpg'),
-                                        );
-                                      } else {
-                                        return CircleAvatar(
-                                          radius: 30.r,
-                                          backgroundImage:
-                                              MemoryImage(snapshot.data!),
-                                        );
-                                      }
-                                    }),
-                              ),
+                                  // child: FutureBuilder(
+                                  //     future: AdminRequests.fetchImageByAdminId(
+                                  //         admin.id!),
+                                  //     builder: (context, snapshot) {
+                                  //       if (snapshot.connectionState ==
+                                  //           ConnectionState.waiting) {
+                                  //         return Center(
+                                  //           child: CircularProgressIndicator(),
+                                  //         );
+                                  //       } else if (snapshot.hasError) {
+                                  //         return Center(
+                                  //           child:
+                                  //               Text('Error: ${snapshot.error}'),
+                                  //         );
+                                  //       } else if (!snapshot.hasData) {
+                                  //         return CircleAvatar(
+                                  //           radius: 30.r,
+                                  //           backgroundImage: AssetImage(
+                                  //               'assets/images/user.jpg'),
+                                  //         );
+                                  //       } else {
+                                  //         return CircleAvatar(
+                                  //           radius: 30.r,
+                                  //           backgroundImage:
+                                  //               MemoryImage(snapshot.data!),
+                                  //         );
+                                  //       }
+                                  //     }),
+                                  ),
                             ),
                           ),
                         ),

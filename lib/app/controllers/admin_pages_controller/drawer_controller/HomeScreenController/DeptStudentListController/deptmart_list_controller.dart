@@ -22,13 +22,16 @@ class DepartmentController extends GetxController {
       List<Student> willingStudents =
           await StudentRequests.getStudentsByPlacementWilling("yes");
 
-      List<Department> studentDepartments =
-          willingStudents.map((student) => student.department!).toSet().toList();
+      List<Department> studentDepartments = willingStudents
+          .map((student) => student.department!)
+          .toSet()
+          .toList();
 
       departments.value = studentDepartments
           .map((dept) => {
                 'name': dept.name ?? 'Unknown Department',
-                'image': dept., // Dummy image
+                'image': dept.logo ??
+                    'https://via.placeholder.com/150', // Dummy image
               })
           .toList();
 

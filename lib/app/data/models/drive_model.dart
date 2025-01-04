@@ -12,12 +12,16 @@ class Drive {
   final String? trainingStipend;
   final DateTime? driveDate;
   final String? driveTime;
+  final String? jobType;
+  final List<String>? requiredSkills;
+  final String? campusMode;
   final int? eligible10thMark;
   final int? eligible12thMark;
   final int? eligibleHistoryOfArrears;
   final int? eligibleCurrentArrears;
   final double? eligibleCgpa;
-  final String? driveFileUrl;
+  final String? mode;
+  final String? venue;
   final DateTime createdAt;
   final Company company;
   final List<Application> applications;
@@ -33,12 +37,16 @@ class Drive {
     this.trainingStipend,
     this.driveDate,
     this.driveTime,
+    this.campusMode,
+    this.jobType,
+    this.venue,
+    this.mode,
+    this.requiredSkills,
     this.eligible10thMark,
     this.eligible12thMark,
     this.eligibleCgpa,
     this.eligibleHistoryOfArrears,
     this.eligibleCurrentArrears,
-    this.driveFileUrl,
     required this.createdAt,
     required this.company,
     required this.applications,

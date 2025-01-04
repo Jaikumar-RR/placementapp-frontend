@@ -6,11 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:final_tpc_app/app/data/models/student_model.dart';
-import 'package:final_tpc_app/app/data/models/job_post_model.dart';
+
+import '../../../../../../data/models/drive_model.dart';
 
 class ApplyJobPage extends StatelessWidget {
   final Student student;
-  final JobPostModel job;
+  final Drive job;
   final themeController = Get.put(ThemeController());
   ApplyJobPage({required this.student, required this.job}) {
     final ApplyJobController controller = Get.put(ApplyJobController());
@@ -63,7 +64,7 @@ class ApplyJobPage extends StatelessWidget {
             SizedBox(height: 16.h),
             Center(
               child: Text(
-                job.jobName,
+                job.jobRole,
                 style: GoogleFonts.poppins(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
@@ -72,7 +73,7 @@ class ApplyJobPage extends StatelessWidget {
             ),
             Center(
               child: Text(
-                job.companyName,
+                job.company.companyName,
                 style: GoogleFonts.poppins(
                   fontSize: 16.sp,
                   color:
@@ -84,9 +85,9 @@ class ApplyJobPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildDetailItem('Location', job.venue),
-                _buildDetailItem('Job Type', job.jobName),
-                _buildDetailItem('Campus Type', job.campusMode),
+                _buildDetailItem('Location', job.venue ?? "N/A"),
+                _buildDetailItem('Job Type', job.jobType ?? "N/A"),
+                _buildDetailItem('Campus Type', job.campusMode ?? "N/A"),
               ],
             ),
             SizedBox(height: 24.h),
@@ -163,7 +164,7 @@ class ApplyJobPage extends StatelessWidget {
               // Switch between Description and Company content
               if (activeTab.value == 0) {
                 return Text(
-                  job.description,
+                  job.description ?? "N/A",
                   style: GoogleFonts.poppins(
                       fontSize: 14.sp,
                       height: 1.5,
@@ -171,7 +172,7 @@ class ApplyJobPage extends StatelessWidget {
                 );
               } else {
                 return Text(
-                  'Company Details: ${job.companyLocation ?? "No details available"}',
+                  'Company Details: ${job.description ?? "No details available"}',
                   style: GoogleFonts.poppins(
                       fontSize: 14.sp,
                       height: 1.5,
@@ -188,7 +189,7 @@ class ApplyJobPage extends StatelessWidget {
                   color: themeController.textColor),
             ),
             SizedBox(height: 8.h),
-            ...job.skills.map((requirement) {
+            ...job.requiredSkills!.map((requirement) {
               return _buildRequirementItem(requirement);
             }).toList(),
             Spacer(),
@@ -198,7 +199,8 @@ class ApplyJobPage extends StatelessWidget {
               return ElevatedButton(
                 onPressed: () {
                   if (isEligible) {
-                    controller.applyJob(student.id as int, job.id as int);
+                    controller.applyJob(
+                        student.studentId as int, job.driveId as int);
                   } else {
                     Get.snackbar(
                       "Not Eligible",

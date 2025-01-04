@@ -115,7 +115,7 @@ class AdminMenuPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          controller.admin.adminName,
+                          controller.admin.name,
                           style: TextStyle(
                             fontSize: 18,
                             color: themeController.textColor,

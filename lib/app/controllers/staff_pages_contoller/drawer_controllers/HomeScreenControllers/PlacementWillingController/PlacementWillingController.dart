@@ -1,25 +1,30 @@
+import 'package:final_tpc_app/app/data/api/student_requests.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// Define the Student model
-class Student {
-  final String name;
-  final String rollno;
-  final String cgpa;
-  final String imageUrl;
-  final String section;
+import '../../../../../data/models/staff_model.dart';
+import '../../../../../data/models/student_model.dart';
 
-  Student({
-    required this.name,
-    required this.rollno,
-    required this.cgpa,
-    required this.imageUrl,
-    required this.section,
-  });
-}
+// Define the Student model
+// class Student {
+//   final String name;
+//   final String rollno;
+//   final String cgpa;
+//   final String imageUrl;
+//   final String section;
+//
+//   Student({
+//     required this.name,
+//     required this.rollno,
+//     required this.cgpa,
+//     required this.imageUrl,
+//     required this.section,
+//   });
+// }
 
 // Controller for managing placement willing students
 class PlacementwillingController extends GetxController {
+  late final Staff staff;
   var isLoading = true.obs;
   var students = <Student>[].obs;
   var filteredStudents = <Student>[].obs; // For filtering students
@@ -34,29 +39,20 @@ class PlacementwillingController extends GetxController {
 
   void fetchStudents() async {
     await Future.delayed(const Duration(seconds: 3)); // Simulate loading
-    students.value = [
-      Student(
-        imageUrl:
-            'https://pbywhmrgjtkosnsdunvc.supabase.co/storage/v1/object/public/sit-tpc/company-logo/zoho.jpg',
-        name: 'Maheshesri',
-        rollno: '21CD056',
-        cgpa: '9.0',
-        section: 'A',
-      ),
-      Student(
-        imageUrl:
-            'https://static.hbo.com/content/dam/hbodata/series/game-of-thrones/character/s5/daenarys-1920.jpg?w=1200',
-        name: 'Gajendhri',
-        rollno: '21CD014',
-        cgpa: '9.5',
-        section: 'B',
-      ),
-    ];
+    List<Student> deptStudents =
+        await StudentRequests.getStudentsByDept(staff.deptId as String);
+    List<Student> placementWillingStudents = [];
+    for (Student s in deptStudents) {
+      if (s.placementWilling == 'yes') {
+        placementWillingStudents.add(s);
+      }
+    }
+    students.value = placementWillingStudents;
     isLoading.value = false;
 
     // Populate sections dynamically
     sections.value =
-        students.map((student) => student.section).toSet().toList();
+        students.map((student) => student.section!).toSet().toList();
     filteredStudents.value = students; // Initially, display all students
   }
 

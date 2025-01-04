@@ -24,6 +24,7 @@ class Student {
   final double? cgpa;
   final int? historyOfArrears;
   final int? currentArrears;
+  final String? section;
   final String? phoneNumber;
   final String? email;
   final String? resumeUrl;
@@ -55,6 +56,7 @@ class Student {
     this.branchDiploma,
     this.yopDiploma,
     this.cgpa,
+    this.section,
     this.phoneNumber,
     this.email,
     this.placementWilling,

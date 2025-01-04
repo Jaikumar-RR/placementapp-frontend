@@ -136,7 +136,8 @@ class NonWillingStudents extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: 25.r,
-                              backgroundImage: NetworkImage(student.imageUrl),
+                              backgroundImage:
+                                  NetworkImage(student.profileUrl!),
                             ),
                             SizedBox(width: 12.w),
                             Expanded(

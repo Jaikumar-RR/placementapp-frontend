@@ -1,13 +1,17 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:final_tpc_app/app/data/models/RequestModels/login_request_model.dart';
 import 'package:http/http.dart' as http;
 import '../api/urls.dart';
 import '../models/login_response.dart';
 import '../token/token_storage.dart';
 
 class AuthRequests {
-  
-  static Future<LoginResponse> login(String username, String password) async {
+  static Future<LoginResponse> login(LoginRequest loginRequest) async {
     try {
+      String username = loginRequest.username;
+      String password = loginRequest.password;
+
       if (username.isEmpty || password.isEmpty) {
         throw Exception("Username or password cannot be empty");
       }
@@ -65,5 +69,4 @@ class AuthRequests {
       throw Exception("Error during refresh token: $e");
     }
   }
-
 }

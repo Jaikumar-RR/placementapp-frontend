@@ -14,10 +14,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class StudentDashboard extends StatelessWidget {
   final Student student;
   final ThemeController themeController = Get.find();
-  StudentDashboard({required this.student});
+  StudentDashboard({super.key, required this.student});
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: Size(360, 800));
+    ScreenUtil.init(context, designSize: const Size(360, 800));
     final StudentDashboardController controller =
         Get.put(StudentDashboardController(student));
     return Scaffold(
@@ -54,7 +54,7 @@ class StudentDashboard extends StatelessWidget {
                         landscape: 10)),
                     decoration: BoxDecoration(
                       color: themeController.secondaryColor,
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
                       ),
@@ -149,7 +149,7 @@ class StudentDashboard extends StatelessWidget {
                     child: GridView.builder(
                       itemCount: controller.catName.length,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         childAspectRatio: ScreenUtils.getOrientationWidth(
@@ -171,7 +171,8 @@ class StudentDashboard extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => StudentJobStatus()),
+                                    builder: (context) =>
+                                        const StudentJobStatus()),
                               );
                             } else if (controller.catName[index] ==
                                 "Apply Job") {
@@ -286,7 +287,7 @@ class StudentDashboard extends StatelessWidget {
                                   const EdgeInsets.symmetric(horizontal: 16),
                               child: ListView.builder(
                                 shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 itemCount: controller.applicationList.length,
                                 itemBuilder: (context, index) {
                                   Application application =
@@ -329,10 +330,11 @@ class StudentDashboard extends StatelessWidget {
       height: 60.h,
       padding: EdgeInsets.all(6.r),
       decoration: BoxDecoration(
-        color:
-            themeController.isDarkMode ? Color(0xFF5A5A5A) : Color(0xFFFFFFFF),
+        color: themeController.isDarkMode
+            ? const Color(0xFF5A5A5A)
+            : const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(8.r),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.transparent,
             blurRadius: 4,
@@ -390,7 +392,9 @@ class StudentDashboard extends StatelessWidget {
   }) {
     return Card(
       elevation: 4,
-      color: themeController.isDarkMode ? Color(0xFF5A5A5A) : Color(0xFFFFFFFF),
+      color: themeController.isDarkMode
+          ? const Color(0xFF5A5A5A)
+          : const Color(0xFFFFFFFF),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
       child: Padding(
         padding: EdgeInsets.all(15.r),

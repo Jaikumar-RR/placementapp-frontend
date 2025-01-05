@@ -1,14 +1,9 @@
-import 'package:final_tpc_app/app/data/models/user_role_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:final_tpc_app/app/data/api/user_requests.dart';
-import 'package:final_tpc_app/app/data/api/admin_requests.dart';
-import 'package:final_tpc_app/app/data/api/staff_requests.dart';
-import 'package:final_tpc_app/app/data/api/student_requests.dart';
 import 'package:final_tpc_app/app/data/models/user_model.dart';
 import 'package:final_tpc_app/app/services/splashscreen_navigation_service.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-
 import '../data/token/token_storage.dart';
 
 class SplashScreenController extends GetxController
@@ -23,7 +18,7 @@ class SplashScreenController extends GetxController
     super.onInit();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 5),
+      duration: const Duration(seconds: 5),
     );
 
     animationController.addStatusListener((status) {
@@ -35,12 +30,13 @@ class SplashScreenController extends GetxController
   }
 
   Future<void> _simulateLoading() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     _checkTokenAndNavigate();
   }
 
   Future<void> _checkTokenAndNavigate() async {
     String? savedToken = await TokenStorage.getAccessToken();
+
     if (savedToken.isEmpty) {
       NavigationService.navigateToHomeScreen(null);
     } else {

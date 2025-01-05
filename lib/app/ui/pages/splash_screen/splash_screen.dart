@@ -10,6 +10,8 @@ class SplashScreen extends StatelessWidget {
   final ThemeController themeController = Get.find();
   final SplashScreenController controller = Get.put(SplashScreenController());
 
+  SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +21,7 @@ class SplashScreen extends StatelessWidget {
         children: [
           Obx(() => AnimatedOpacity(
                 opacity: controller.isLoading ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 500),
                 child: Center(
                   child: Lottie.asset(
                     'assets/lottie/SS.json',
@@ -46,7 +48,7 @@ class SplashScreen extends StatelessWidget {
                         color: themeController.secondaryColor,
                         size: 50,
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
               )),
         ],
       ),

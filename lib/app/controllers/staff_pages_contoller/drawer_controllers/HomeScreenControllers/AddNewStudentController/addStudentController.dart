@@ -1,6 +1,8 @@
 import 'package:final_tpc_app/app/controllers/theme_controller/app_color_controller.dart';
 import 'package:final_tpc_app/app/data/api/student_requests.dart';
 import 'package:final_tpc_app/app/data/models/student_model.dart';
+import 'package:final_tpc_app/app/data/models/student_register_model.dart';
+import 'package:final_tpc_app/app/data/models/user_role_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +12,7 @@ class AddStudentController extends GetxController {
   bool? placementWilling = true;
   bool isProcessing = false;
   String errorMessage = "";
+  DateTime? selectedDob;
 
   @override
   void onInit() {
@@ -31,12 +34,6 @@ class AddStudentController extends GetxController {
       },
       {'key': 'department', 'label': 'Department'},
       {'key': 'section', 'label': 'Section'},
-      {
-        'key': 'dob',
-        'label': 'Date of Birth',
-        'readOnly': true,
-        'onTap': () => _selectDate(),
-      },
       {'key': 'gender', 'label': 'Gender'},
       {'key': 'placeOfBirth', 'label': 'Place of Birth'},
       {'key': 'email', 'label': 'Email'},
@@ -74,41 +71,48 @@ class AddStudentController extends GetxController {
     errorMessage = "";
     update();
 
-    Student newStudent = Student(
-      rollno: controllers['rollNo']?.text,
-      regno: controllers['regNo']?.text,
-      name: controllers['studentName']?.text ?? "",
-      deptId: int.parse(controllers['department']?.text ?? "0"),
-      gender: controllers['gender']?.text,
-      fatherName: controllers['fatherName']?.text,
-      dob: controllers['dob']?.text,
-      score10th: int.tryParse(controllers['score10th']?.text ?? ""),
-      board10th: controllers['board10th']?.text,
-      yop10th: int.tryParse(controllers['yearOfPassing10th']?.text ?? ""),
-      score12th: int.tryParse(controllers['score12th']?.text ?? ""),
-      board12th: controllers['board12th']?.text,
-      yop12th: int.tryParse(controllers['yearOfPassing12th']?.text ?? ""),
-      scoreDiploma: int.tryParse(controllers['scoreDiploma']?.text ?? ""),
-      branchDiploma: controllers['branchDiploma']?.text,
-      yopDiploma: int.tryParse(controllers['yearOfPassingDiploma']?.text ?? ""),
-      cgpa: double.tryParse(controllers['cgpa']?.text ?? ""),
-      historyOfArrears:
-          int.tryParse(controllers['historyOfArrears']?.text ?? ""),
-      currentArrears: int.tryParse(controllers['standingArrears']?.text ?? ""),
-      phoneNumber: controllers['phoneNumber']?.text,
-      email: controllers['email']?.text,
-      resumeUrl: null, // Replace with actual value if available
-      profileUrl: null, // Replace with actual value if available
-      placementWilling: "Yes", // Example hardcoded value; replace as needed
-    );
+    StudentRegisterModel newStudent = StudentRegisterModel(
+        role: UserRole.student.toString(),
+        password: controllers['rollNo']!.text,
+        username: controllers['rollNo']!.text,
+        regno: controllers['regNo']!.text,
+        name: controllers['studentName']?.text ?? "",
+        deptId: int.parse(controllers['department']?.text ?? "0"),
+        gender: controllers['gender']!.text,
+        fatherName: controllers['fatherName']!.text,
+        dob: selectedDob!, // Use DateTime value
+        score10Th: int.tryParse(controllers['score10th']!.text)!,
+        board10Th: controllers['board10th']!.text,
+        yop10Th: int.tryParse(controllers['yearOfPassing10th']?.text ?? "")!,
+        score12Th: int.tryParse(controllers['score12th']?.text ?? "")!,
+        board12Th: controllers['board12th']!.text,
+        yop12Th: int.tryParse(controllers['yearOfPassing12th']?.text ?? "")!,
+        scoreDiploma: int.tryParse(controllers['scoreDiploma']?.text ?? "")!,
+        branchDiploma: controllers['branchDiploma']!.text,
+        yopDiploma:
+            int.tryParse(controllers['yearOfPassingDiploma']?.text ?? "")!,
+        cgpa: double.tryParse(controllers['cgpa']?.text ?? "")!,
+        historyOfArrears:
+            int.tryParse(controllers['historyOfArrears']?.text ?? "")!,
+        currentArrears:
+            int.tryParse(controllers['standingArrears']?.text ?? "")!,
+        phoneNumber: controllers['phoneNumber']!.text,
+        email: controllers['email']!.text,
+        resumeUrl: controllers['resumeUrl']?.text ?? null,
+        profileUrl: controllers['profileUrl']?.text ?? null,
+        placementWilling: "Yes");
 
     Student createdStudent = await StudentRequests.createStudent(newStudent);
     isProcessing = false;
+
     if (createdStudent != null) {
       Get.snackbar('Success', 'Student Added Successfully',
           snackPosition: SnackPosition.BOTTOM, backgroundColor: Colors.green);
-      controllers.values.forEach((controller) => controller.clear());
+      for (var controller in controllers.values) {
+        controller.clear();
+      }
       placementWilling = true;
+      selectedDob = null; // Reset dob
     } else {
       errorMessage = 'Failed to add student';
     }
@@ -116,6 +120,7 @@ class AddStudentController extends GetxController {
   }
 
   final ThemeController themeController = Get.find();
+
   Widget buildTextField({
     required String labelText,
     required String key,
@@ -141,6 +146,33 @@ class AddStudentController extends GetxController {
           border: const OutlineInputBorder(),
         ),
         onTap: onTap,
+      ),
+    );
+  }
+
+  Widget buildDobField() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: GestureDetector(
+        onTap: _selectDate,
+        child: AbsorbPointer(
+          child: TextFormField(
+            controller: TextEditingController(
+                text: selectedDob?.toLocal().toString().split(' ')[0] ?? ""),
+            readOnly: true,
+            style: TextStyle(color: themeController.textColor),
+            decoration: InputDecoration(
+              labelText: "Date of Birth",
+              labelStyle: TextStyle(
+                  color: themeController.textColor
+                      .withOpacity(0.7)), // Label text color
+              hintText: 'Select Date of Birth',
+              hintStyle:
+                  TextStyle(color: themeController.textColor.withOpacity(0.5)),
+              border: const OutlineInputBorder(),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -194,7 +226,7 @@ class AddStudentController extends GetxController {
       lastDate: DateTime.now(),
     );
     if (pickedDate != null) {
-      controllers['dob']!.text = pickedDate.toLocal().toString().split(' ')[0];
+      selectedDob = pickedDate;
       update();
     }
   }

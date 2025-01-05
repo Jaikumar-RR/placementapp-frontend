@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:final_tpc_app/app/data/models/student_register_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/student_model.dart';
 import '../token/token_storage.dart';
 import 'urls.dart';
 
 class StudentRequests {
-
   static Future<List<Student>> getAllStudents() async {
     try {
       String token = await TokenStorage.getAccessToken();
@@ -53,7 +53,7 @@ class StudentRequests {
       });
 
       if (response.statusCode == 200) {
-         return Student.fromJson(jsonDecode(response.body));
+        return Student.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Cannot get student by this id');
       }
@@ -78,7 +78,7 @@ class StudentRequests {
       });
 
       if (response.statusCode == 200) {
-         return Student.fromJson(jsonDecode(response.body));
+        return Student.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Cannot get student by this user id');
       }
@@ -112,7 +112,7 @@ class StudentRequests {
     }
   }
 
-  static Future<Student> createStudent(Student student) async {
+  static Future<Student> createStudent(StudentRegisterModel student) async {
     try {
       String token = await TokenStorage.getAccessToken();
 
@@ -120,7 +120,7 @@ class StudentRequests {
         throw Exception('Token is null');
       }
 
-      String endpoint = "${Urls.studentUrl}/";
+      String endpoint = "${Urls.authUrl}/";
 
       final response = await http.post(Uri.parse(endpoint),
           headers: {
@@ -130,7 +130,7 @@ class StudentRequests {
           body: jsonEncode(student.toJson()));
 
       if (response.statusCode == 200) {
-         return Student.fromJson(jsonDecode(response.body));
+        return Student.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Cannot create student');
       }
@@ -157,7 +157,7 @@ class StudentRequests {
           body: jsonEncode(student.toJson()));
 
       if (response.statusCode == 200) {
-         return Student.fromJson(jsonDecode(response.body));
+        return Student.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Cannot update student');
       }
@@ -182,7 +182,7 @@ class StudentRequests {
       });
 
       if (response.statusCode == 200) {
-         return Student.fromJson(jsonDecode(response.body));
+        return Student.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Cannot delete student');
       }
@@ -214,19 +214,21 @@ class StudentRequests {
       throw Exception('Error in getting students by department');
     }
   }
-  
-  static Future<List<Student>> getStudentsByPlacementWilling(String placementWilling) async {
+
+  static Future<List<Student>> getStudentsByPlacementWilling(
+      String placementWilling) async {
     try {
       String token = await TokenStorage.getAccessToken();
       if (token.isEmpty) {
         throw Exception('Token is null');
       }
 
-      if(placementWilling != 'yes' && placementWilling != 'no') {
+      if (placementWilling != 'yes' && placementWilling != 'no') {
         throw Exception('Placement willing should be either yes or no');
       }
 
-      String endpoint = "${Urls.studentUrl}/byPlacementWilling/$placementWilling";
+      String endpoint =
+          "${Urls.studentUrl}/byPlacementWilling/$placementWilling";
 
       final response = await http.get(Uri.parse(endpoint), headers: {
         'Authorization': 'Bearer $token',
@@ -244,5 +246,4 @@ class StudentRequests {
       throw Exception('Error in getting students by placement willing');
     }
   }
-  
 }

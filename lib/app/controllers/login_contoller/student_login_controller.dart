@@ -1,3 +1,4 @@
+import 'package:final_tpc_app/app/data/models/RequestModels/login_request_model.dart';
 import 'package:final_tpc_app/app/data/models/login_response.dart';
 import 'package:final_tpc_app/app/data/models/user_role_model.dart';
 import 'package:final_tpc_app/app/ui/pages/student_pages/drawer/student_drawer_home.dart';
@@ -54,10 +55,9 @@ class StudentLoginController extends GetxController
 
     isLoading.value = true;
     try {
-      LoginResponse loginData = await AuthRequests.login(
-        usernameController.text,
-        passwordController.text,
-      );
+      LoginRequest loginRequest = LoginRequest(
+          username: usernameController.text, password: passwordController.text);
+      LoginResponse loginData = await AuthRequests.login(loginRequest);
 
       if (loginData == null || loginData.accessToken == null) {
         showErrorDialog("Login Failed", "Invalid username or password.");

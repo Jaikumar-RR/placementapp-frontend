@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:final_tpc_app/app/data/models/staff_register_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/staff_model.dart';
 import '../token/token_storage.dart';
 import 'urls.dart';
 
 class StaffRequests {
-  
   static Future<List<Staff>> getAllStaffs() async {
     try {
       String token = await TokenStorage.getAccessToken();
@@ -87,14 +87,14 @@ class StaffRequests {
     }
   }
 
-  static Future<Staff> addStaff(Staff staff) async {
+  static Future<Staff> addStaff(StaffRegisterModel staff) async {
     try {
       String token = await TokenStorage.getAccessToken();
 
       if (token.isEmpty) {
         throw Exception('Token is null');
       }
-      String endpoint = "${Urls.staffUrl}";
+      String endpoint = Urls.authUrl;
 
       final response = await http.post(
         Uri.parse(endpoint),
@@ -168,5 +168,4 @@ class StaffRequests {
       throw Exception('Exception Failed to update staff');
     }
   }
-
 }

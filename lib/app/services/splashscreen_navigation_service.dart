@@ -28,9 +28,6 @@ class NavigationService {
       case UserRole.admin:
         Get.off(() => AdminDrawerHome(admin: user.admin!));
         break;
-      default:
-        Get.off(() => HomePage());
-        break;
     }
   }
 }

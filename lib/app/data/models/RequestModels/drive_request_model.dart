@@ -1,8 +1,5 @@
-import 'application_model.dart';
-import 'company_model.dart';
-
-class Drive {
-  final int driveId;
+class DriveRequest {
+  final int? driveId; // Nullable for new instances before creation
   final int companyId;
   final String jobRole;
   final String? location;
@@ -12,22 +9,17 @@ class Drive {
   final String? trainingStipend;
   final DateTime? driveDate;
   final String? driveTime;
-  final String? jobType;
-  final List<String>? requiredSkills;
-  final String? campusMode;
   final int? eligible10thMark;
   final int? eligible12thMark;
+  final double? eligibleCgpa;
   final int? eligibleHistoryOfArrears;
   final int? eligibleCurrentArrears;
-  final double? eligibleCgpa;
-  final String? mode;
-  final String? venue;
-  final DateTime createdAt;
-  final Company company;
-  final List<Application> applications;
+  final String? jobType;
+  final List<String>? requiredSkills; // Nullable list of strings
+  final DateTime? createdAt;
 
-  Drive({
-    required this.driveId,
+  DriveRequest({
+    this.driveId,
     required this.companyId,
     required this.jobRole,
     this.location,
@@ -37,23 +29,19 @@ class Drive {
     this.trainingStipend,
     this.driveDate,
     this.driveTime,
-    this.campusMode,
-    this.jobType,
-    this.venue,
-    this.mode,
-    this.requiredSkills,
     this.eligible10thMark,
     this.eligible12thMark,
     this.eligibleCgpa,
     this.eligibleHistoryOfArrears,
     this.eligibleCurrentArrears,
-    required this.createdAt,
-    required this.company,
-    required this.applications,
+    this.jobType,
+    this.requiredSkills,
+    this.createdAt,
   });
 
-  factory Drive.fromJson(Map<String, dynamic> json) {
-    return Drive(
+  // Factory constructor for creating an instance from JSON
+  factory DriveRequest.fromJson(Map<String, dynamic> json) {
+    return DriveRequest(
       driveId: json['drive_id'],
       companyId: json['company_id'],
       jobRole: json['job_role'],
@@ -68,14 +56,20 @@ class Drive {
       driveTime: json['drive_time'],
       eligible10thMark: json['eligible_10th_mark'],
       eligible12thMark: json['eligible_12th_mark'],
-      eligibleCgpa: json['eligible_cgpa']?.toDouble(),
-      createdAt: DateTime.parse(json['created_at']),
-      company: Company.fromJson(json['company']),
-      applications: List<Application>.from(
-          json['applications'].map((x) => Application.fromJson(x))),
+      eligibleCgpa: (json['eligible_cgpa'] as num?)?.toDouble(),
+      eligibleHistoryOfArrears: json['eligible_history_of_arrears'],
+      eligibleCurrentArrears: json['eligible_current_arrears'],
+      jobType: json['job_type'],
+      requiredSkills: (json['required_skills'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
     );
   }
 
+  // Method for converting an instance to JSON
   Map<String, dynamic> toJson() {
     return {
       'drive_id': driveId,
@@ -91,9 +85,11 @@ class Drive {
       'eligible_10th_mark': eligible10thMark,
       'eligible_12th_mark': eligible12thMark,
       'eligible_cgpa': eligibleCgpa,
-      'created_at': createdAt.toIso8601String(),
-      'company': company.toJson(),
-      'applications': List<dynamic>.from(applications.map((x) => x.toJson())),
+      'eligible_history_of_arrears': eligibleHistoryOfArrears,
+      'eligible_current_arrears': eligibleCurrentArrears,
+      'job_type': jobType,
+      'required_skills': requiredSkills,
+      'created_at': createdAt?.toIso8601String(),
     };
   }
 }

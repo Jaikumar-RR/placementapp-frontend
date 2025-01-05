@@ -1,19 +1,7 @@
-// To parse this JSON data, do
-//
-//     final studentRegisterModel = studentRegisterModelFromJson(jsonString);
-
-import 'dart:convert';
-
-StudentRegisterModel studentRegisterModelFromJson(String str) =>
-    StudentRegisterModel.fromJson(json.decode(str));
-
-String studentRegisterModelToJson(StudentRegisterModel data) =>
-    json.encode(data.toJson());
-
-class StudentRegisterModel {
-  final String username; // Student Roll Number
+class RegisterStudent {
   final String password;
   final String role;
+  final String username;
   final String regno;
   final String name;
   final int deptId;
@@ -26,19 +14,18 @@ class StudentRegisterModel {
   final int score12Th;
   final String board12Th;
   final int yop12Th;
+  final int currentArrears;
+  final int historyOfArrears;
   final int scoreDiploma;
   final String branchDiploma;
-  final int yopDiploma;
-  final String? profileUrl;
-  final String? resumeUrl;
-  final int historyOfArrears;
-  final int currentArrears;
+  final String yopDiploma;
   final double cgpa;
   final String phoneNumber;
   final String email;
+  final String profileUrl;
   final String placementWilling;
 
-  StudentRegisterModel({
+  RegisterStudent({
     required this.password,
     required this.role,
     required this.username,
@@ -54,21 +41,20 @@ class StudentRegisterModel {
     required this.score12Th,
     required this.board12Th,
     required this.yop12Th,
+    required this.currentArrears,
+    required this.historyOfArrears,
     required this.scoreDiploma,
     required this.branchDiploma,
     required this.yopDiploma,
     required this.cgpa,
     required this.phoneNumber,
-    this.profileUrl,
-    this.resumeUrl,
-    required this.historyOfArrears,
-    required this.currentArrears,
     required this.email,
+    required this.profileUrl,
     required this.placementWilling,
   });
 
-  factory StudentRegisterModel.fromJson(Map<String, dynamic> json) =>
-      StudentRegisterModel(
+  factory RegisterStudent.fromJson(Map<String, dynamic> json) =>
+      RegisterStudent(
         password: json["password"],
         role: json["role"],
         username: json["username"],
@@ -87,14 +73,13 @@ class StudentRegisterModel {
         scoreDiploma: json["score_diploma"],
         branchDiploma: json["branch_diploma"],
         yopDiploma: json["yop_diploma"],
+        currentArrears: json['current_arrears'],
+        historyOfArrears: json['history_of__arrears'],
         cgpa: json["cgpa"].toDouble(),
         phoneNumber: json["phone_number"],
         email: json["email"],
+        profileUrl: json['profile_url'],
         placementWilling: json["placement_willing"],
-        historyOfArrears: json["history_of_arrears"],
-        currentArrears: json["current_arrears"],
-        profileUrl: json["profile_url"],
-        resumeUrl: json["resume_url"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -117,9 +102,12 @@ class StudentRegisterModel {
         "score_diploma": scoreDiploma,
         "branch_diploma": branchDiploma,
         "yop_diploma": yopDiploma,
+        "current_arrears": currentArrears,
+        "history_of_arrears": historyOfArrears,
         "cgpa": cgpa,
         "phone_number": phoneNumber,
         "email": email,
+        "profile_url": profileUrl,
         "placement_willing": placementWilling,
       };
 }

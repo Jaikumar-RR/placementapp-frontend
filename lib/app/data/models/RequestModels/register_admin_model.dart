@@ -1,50 +1,45 @@
-// To parse this JSON data, do
-//
-//     final registerAdmin = registerAdminFromJson(jsonString);
-
-import 'dart:convert';
-
-RegisterAdmin registerAdminFromJson(String str) =>
-    RegisterAdmin.fromJson(json.decode(str));
-
-String registerAdminToJson(RegisterAdmin data) => json.encode(data.toJson());
-
 class RegisterAdmin {
-  String password;
-  String email;
-  String username;
-  String name;
-  String role;
-  String phoneNumber;
-  String profileUrl;
+  final String username;
+  final String password;
+  final String email;
+  final String role;
+  final String phoneNumber;
+  final String name;
+  final String profileUrl;
 
   RegisterAdmin({
+    required this.username,
     required this.password,
     required this.email,
-    required this.username,
-    required this.name,
     required this.role,
     required this.phoneNumber,
+    required this.name,
     required this.profileUrl,
   });
 
-  factory RegisterAdmin.fromJson(Map<String, dynamic> json) => RegisterAdmin(
-        password: json["password"],
-        email: json["email"],
-        username: json["username"],
-        name: json["name"],
-        role: json["role"],
-        phoneNumber: json["phone_number"],
-        profileUrl: json["profile_url"],
-      );
+  // Convert JSON to RegisterAdmin model
+  factory RegisterAdmin.fromJson(Map<String, dynamic> json) {
+    return RegisterAdmin(
+      username: json['username'],
+      password: json['password'],
+      email: json['email'],
+      role: json['role'],
+      phoneNumber: json['phone_number'],
+      name: json['name'],
+      profileUrl: json['profile_url'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        "password": password,
-        "email": email,
-        "username": username,
-        "name": name,
-        "role": role,
-        "phone_number": phoneNumber,
-        "profile_url": profileUrl,
-      };
+  // Convert RegisterAdmin model to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'username': username,
+      'password': password,
+      'email': email,
+      'role': role,
+      'phone_number': phoneNumber,
+      'name': name,
+      'profile_url': profileUrl,
+    };
+  }
 }

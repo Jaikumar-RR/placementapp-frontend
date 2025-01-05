@@ -1,54 +1,45 @@
-// To parse this JSON data, do
-//
-//     final registerStaff = registerStaffFromJson(jsonString);
-
-import 'dart:convert';
-
-RegisterStaff registerStaffFromJson(String str) =>
-    RegisterStaff.fromJson(json.decode(str));
-
-String registerStaffToJson(RegisterStaff data) => json.encode(data.toJson());
-
 class RegisterStaff {
-  String password;
-  String email;
-  String name;
-  String role;
-  String username;
-  int deptId;
-  String phoneNumber;
-  String profileUrl;
+  final String username;
+  final String password;
+  final String email;
+  final String phoneNumber;
+  final String profileUrl;
+  final String role;
+  final String name;
 
   RegisterStaff({
+    required this.username,
     required this.password,
     required this.email,
-    required this.name,
-    required this.role,
-    required this.username,
-    required this.deptId,
     required this.phoneNumber,
     required this.profileUrl,
+    required this.role,
+    required this.name,
   });
 
-  factory RegisterStaff.fromJson(Map<String, dynamic> json) => RegisterStaff(
-        password: json["password"],
-        email: json["email"],
-        name: json["name"],
-        role: json["role"],
-        username: json["username"],
-        deptId: json["dept_id"],
-        phoneNumber: json["phone_number"],
-        profileUrl: json["profile_url"],
-      );
+  // Convert JSON to Staff model
+  factory RegisterStaff.fromJson(Map<String, dynamic> json) {
+    return RegisterStaff(
+      username: json['username'],
+      password: json['password'],
+      email: json['email'],
+      phoneNumber: json['phone_number'],
+      profileUrl: json['profile_url'],
+      role: json['role'],
+      name: json['name'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        "password": password,
-        "email": email,
-        "name": name,
-        "role": role,
-        "username": username,
-        "dept_id": deptId,
-        "phone_number": phoneNumber,
-        "profile_url": profileUrl,
-      };
+  // Convert Staff model to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'username': username,
+      'password': password,
+      'email': email,
+      'phone_number': phoneNumber,
+      'profile_url': profileUrl,
+      'role': role,
+      'name': name,
+    };
+  }
 }

@@ -1,5 +1,4 @@
 class DriveRequest {
-  final int? driveId; // Nullable for new instances before creation
   final int companyId;
   final String jobRole;
   final String? location;
@@ -15,11 +14,11 @@ class DriveRequest {
   final int? eligibleHistoryOfArrears;
   final int? eligibleCurrentArrears;
   final String? jobType;
-  final List<String>? requiredSkills; // Nullable list of strings
-  final DateTime? createdAt;
+  final String? venue;
+  final List<String> requiredSkills;
+  final int numberOfRounds;
 
   DriveRequest({
-    this.driveId,
     required this.companyId,
     required this.jobRole,
     this.location,
@@ -35,44 +34,39 @@ class DriveRequest {
     this.eligibleHistoryOfArrears,
     this.eligibleCurrentArrears,
     this.jobType,
-    this.requiredSkills,
-    this.createdAt,
+    this.venue,
+    required this.requiredSkills,
+    required this.numberOfRounds,
   });
 
-  // Factory constructor for creating an instance from JSON
-  factory DriveRequest.fromJson(Map<String, dynamic> json) {
+  // Factory method to create an instance from a map (used for API response parsing)
+  factory DriveRequest.fromMap(Map<String, dynamic> map) {
     return DriveRequest(
-      driveId: json['drive_id'],
-      companyId: json['company_id'],
-      jobRole: json['job_role'],
-      location: json['location'],
-      description: json['description'],
-      salary: json['salary'],
-      trainingPeriod: json['training_period'],
-      trainingStipend: json['training_stipend'],
-      driveDate: json['drive_date'] != null
-          ? DateTime.parse(json['drive_date'])
-          : null,
-      driveTime: json['drive_time'],
-      eligible10thMark: json['eligible_10th_mark'],
-      eligible12thMark: json['eligible_12th_mark'],
-      eligibleCgpa: (json['eligible_cgpa'] as num?)?.toDouble(),
-      eligibleHistoryOfArrears: json['eligible_history_of_arrears'],
-      eligibleCurrentArrears: json['eligible_current_arrears'],
-      jobType: json['job_type'],
-      requiredSkills: (json['required_skills'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
-          : null,
+      companyId: map['company_id'],
+      jobRole: map['job_role'],
+      location: map['location'],
+      description: map['description'],
+      salary: map['salary'],
+      trainingPeriod: map['training_period'],
+      trainingStipend: map['training_stipend'],
+      driveDate:
+          map['drive_date'] != null ? DateTime.parse(map['drive_date']) : null,
+      driveTime: map['drive_time'],
+      eligible10thMark: map['eligible_10th_mark'],
+      eligible12thMark: map['eligible_12th_mark'],
+      eligibleCgpa: map['eligible_cgpa']?.toDouble(),
+      eligibleHistoryOfArrears: map['eligible_history_of_arrears'],
+      eligibleCurrentArrears: map['eligible_current_arrears'],
+      jobType: map['job_type'],
+      venue: map['venue'],
+      requiredSkills: List<String>.from(map['required_skills']),
+      numberOfRounds: map['number_of_rounds'],
     );
   }
 
-  // Method for converting an instance to JSON
-  Map<String, dynamic> toJson() {
+  // Method to convert an instance to a map (used for API requests)
+  Map<String, dynamic> toMap() {
     return {
-      'drive_id': driveId,
       'company_id': companyId,
       'job_role': jobRole,
       'location': location,
@@ -88,8 +82,9 @@ class DriveRequest {
       'eligible_history_of_arrears': eligibleHistoryOfArrears,
       'eligible_current_arrears': eligibleCurrentArrears,
       'job_type': jobType,
+      'venue': venue,
       'required_skills': requiredSkills,
-      'created_at': createdAt?.toIso8601String(),
+      'number_of_rounds': numberOfRounds,
     };
   }
 }
